@@ -1,22 +1,22 @@
 // Firebase configuration (replace with your own Firebase project config)
-import {
-  APIKEY,
-  AUTHDOMAIN,
-  PROJECTID,
-  STORAGEBUCKET,
-  MESSAGINGSENDERID,
-  APPID,
-  MEASUREMENTID,
-} from "@env";
+// import {
+//   APIKEY,
+//   AUTHDOMAIN,
+//   PROJECTID,
+//   STORAGEBUCKET,
+//   MESSAGINGSENDERID,
+//   APPID,
+//   MEASUREMENTID,
+// } from "@env";
 
 const firebaseConfig = {
-  apiKey: APIKEY,
-  authDomain: AUTHDOMAIN,
-  projectId: PROJECTID,
-  storageBucket: STORAGEBUCKET,
-  messagingSenderId: MESSAGINGSENDERID,
-  appId: APPID,
-  measurementId: MEASUREMENTID,
+  apiKey: process.env.APIKEY,
+  authDomain: process.env.AUTHDOMAIN,
+  projectId: process.env.PROJECTID,
+  storageBucket: process.env.STORAGEBUCKET,
+  messagingSenderId: process.env.MESSAGINGSENDERID,
+  appId: process.env.APPID,
+  measurementId: process.env.MEASUREMENTID,
 };
 
 // Initialize Firebase

@@ -1,0 +1,56 @@
+name: Firebase App Deployment
+
+# Trigger the workflow when pushing code to the main branch
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16" # Specify Node.js version
+
+      # Step 3: Install dependencies (e.g., Firebase CLI, project dependencies)
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Inject secrets into environment variables (without FIREBASE_ prefix)
+      - name: Set environment variables from secrets
+        env:
+          APIKEY: ${{ secrets.APIKEY }}
+          AUTHDOMAIN: ${{ secrets.AUTHDOMAIN }}
+          PROJECTID: ${{ secrets.PROJECTID }}
+          STORAGEBUCKET: ${{ secrets.STORAGEBUCKET }}
+          MESSAGINGSENDERID: ${{ secrets.MESSAGINGSENDERID }}
+          APPID: ${{ secrets.APPID }}
+          MEASUREMENTID: ${{ secrets.MEASUREMENTID }}
+        run: |
+          echo "Secrets have been loaded"
+          # Optionally, write these environment variables to a .env file if needed
+          echo "APIKEY=$APIKEY" >> .env
+          echo "AUTHDOMAIN=$AUTHDOMAIN" >> .env
+          echo "PROJECTID=$PROJECTID" >> .env
+          echo "STORAGEBUCKET=$STORAGEBUCKET" >> .env
+          echo "MESSAGINGSENDERID=$MESSAGINGSENDERID" >> .env
+          echo "APPID=$APPID" >> .env
+          echo "MEASUREMENTID=$MEASUREMENTID" >> .env
+
+      # Step 5: Build the project (if using a build system)
+      - name: Build the project
+        run: npm run build # Modify this command to fit your project build process
+
+      # Step 6: Deploy the app (if using Firebase CLI or another deploy method)
+      - name: Deploy to Firebase
+        run: |
+          firebase deploy --only hosting --project $PROJECTID
