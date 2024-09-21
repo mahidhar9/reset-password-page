@@ -1,3 +1,16 @@
+// Firebase configuration (replace with your own Firebase project config)
+const firebaseConfig = {
+  apiKey: process.env.APIKEY,
+  authDomain: process.env.AUTHDOMAIN,
+  projectId: process.env.PROJECTID,
+  storageBucket: process.env.STORAGEBUCKET,
+  messagingSenderId: process.env.MESSAGINGSENDERID,
+  appId: process.env.APPID,
+  measurementId: process.env.MEASUREMENTID,
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 // Password validation function
 function validatePassword(password) {
   const minLength = 8;
@@ -49,7 +62,11 @@ document
     // If no errors, proceed to reset password
     const urlParams = new URLSearchParams(window.location.search);
     const oobCode = urlParams.get("oobCode"); // Get the oobCode from URL
-
+    // Check if invalid url with oob code
+    if (newPassword !== confirmPassword) {
+      errorMessageElement.textContent = "Invalid link";
+      return;
+    }
     firebase
       .auth()
       .confirmPasswordReset(oobCode, newPassword)
